@@ -342,7 +342,6 @@ INT32		CFindFileUtil::SearchDirFile(UINT32 nOrderID)
 	begin = find->second.begin();	end = find->second.end();
 	for(begin; begin != end; begin++)
 	{
-//		strSR = _strlwr(begin->c_str());
 		strSR = begin->c_str();
 		nLen = begin->length();
 		if(nLen < 2)
@@ -373,7 +372,6 @@ INT32		CFindFileUtil::SearchDirFileThread(UINT32 nOrderID)
 	begin = find->second.begin();	end = find->second.end();
 	for(begin; begin != end; begin++)
 	{
-//		strSR = _strlwr(begin->c_str());
 		strSR = begin->c_str();
 		nLen = begin->length();
 		if(nLen < 1)
@@ -546,7 +544,6 @@ INT32		CFindFileUtil::Recursive_SearchDir(UINT32 nOrderID, String strRootPath, S
 	{			
 		if(_stricmp(pDirEnt->d_name, ".") && _stricmp(pDirEnt->d_name, ".."))
 		{
-//			strFileNameA = String(pDirEnt->d_name);
 			strFileNameA = pDirEnt->d_name;
 			if(DT_DIR == pDirEnt->d_type)
 			{
@@ -621,7 +618,6 @@ INT32		CFindFileUtil::Recursive_SearchFile(UINT32 nOrderID, String strSearchPath
 		{
 			continue;
 		}
-//		strFileNameA = String(pDirEnt->d_name);
 		strFileNameA = pDirEnt->d_name;
 
 		nMatchType = ASI_FF_FILE_FIND_TYPE_PATTERN;
@@ -706,7 +702,6 @@ INT32		CFindFileUtil::Recursive_SearchDirFile(UINT32 nOrderID, String strSearchP
 	{			
 		if(_stricmp(pDirEnt->d_name, ".") && _stricmp(pDirEnt->d_name, ".."))
 		{
-//			strFileNameA = String(pDirEnt->d_name);
 			strFileNameA = pDirEnt->d_name;
 			nMatchType = ASI_FF_FILE_FIND_TYPE_PATTERN;
 			
@@ -758,7 +753,7 @@ INT32		CFindFileUtil::AddFileMask(UINT32 nOrderID, LPCTSTR lpFileMask)
 	
 	strncpy(szFileExt, lpFileMask, MAX_PATH-3);
 	szFileExt[MAX_PATH-3] = 0;
-//	_strlwr(szFileExt);
+
 	nFileLen = (INT32)strlen(szFileExt);
 	if(nFileLen < 1)
 		return -2;
@@ -974,7 +969,7 @@ INT32		CFindFileUtil::AddExceptDir(UINT32 nOrderID, LPCTSTR lpDirPath)
 
 	strncpy(szDirPath, lpDirPath, MAX_PATH-1);
 	szDirPath[MAX_PATH-1] = 0;
-//	_strlwr(szDirPath);
+
 	pExt = strrchr(szDirPath, '.');
 	if(pExt != NULL)
 		strFileMask = SPrintf("%s", pExt);
@@ -1019,7 +1014,6 @@ INT32		CFindFileUtil::DelExceptDir(UINT32 nOrderID, LPCTSTR lpDirPath)
 
 	strncpy(szDirPath, lpDirPath, MAX_PATH-1);
 	szDirPath[MAX_PATH-1] = 0;
-//	_strlwr(szDirPath);
 	
 	pExt = strrchr(szDirPath, '.');
 	if(pExt != NULL)
@@ -1104,7 +1098,6 @@ INT32		CFindFileUtil::AddExceptDirFileMask(UINT32 nOrderID, LPCTSTR lpDirPathFil
 
 	strncpy(szDirPath, lpDirPathFileMask, MAX_PATH-1);
 	szDirPath[MAX_PATH-1] = 0;
-//	_strlwr(szDirPath);
 
 	pExt = strrchr(szDirPath, '.');
 	if(pExt != NULL)
@@ -1145,7 +1138,7 @@ INT32		CFindFileUtil::DelExceptDirFileMask(UINT32 nOrderID, LPCTSTR lpDirPathFil
 		return -2;
 
 	strncpy(szDirPath, lpDirPathFileMask, MAX_PATH-1);
-//	_strlwr(szDirPath);
+
 	pExt = strrchr(szDirPath, '.');
 	if(pExt != NULL)
 		strFileMask = SPrintf("%s", pExt);
@@ -1285,7 +1278,7 @@ INT32		CFindFileUtil::IsExistFileDateTime(UINT32 nOrderID, String strFilePath, S
 
 	if(strFilePath.length() == 0)
 	{
-		WriteLog("[IsExistFileDateTime] invalid input data");
+		WriteLog("[IsExistFileDateTime] invalid file path");
 		return 0;	
 	}
 		
@@ -1388,7 +1381,6 @@ INT32		CFindFileUtil::StringMatchSpec(LPCTSTR pszTarget, LPCTSTR pszSpec)
 			mp = pSpec;
 			cp = pTarget+1;
 		} 
-//		else if (((TOLOWER(*pSpec) == TOLOWER(*pTarget)) && (*pSpec != '#')) || (*pSpec == '?') || ((*pSpec == '#') && isdigit(*pTarget))) 
 		else if (((*pSpec == *pTarget) && (*pSpec != '#')) || (*pSpec == '?') || ((*pSpec == '#') && isdigit(*pTarget))) 
 		{
 			pSpec++;
@@ -1437,7 +1429,6 @@ INT32		CFindFileUtil::AddFindSubDirItem(UINT32 nOrderID, UINT32 nSubSearch, TLis
 	{
 		tFDI.nOrderID		= nOrderID;
 		tFDI.strSearchDir	= *begin;
-//		tFDI.strSearchDirW = ConvertWideString(tFDI.strSearchDir);
 		tFDI.nSubSearch		= nSubSearch;
 		m_tFindSubDirItemList.push_back(tFDI);
 	}
@@ -1759,8 +1750,6 @@ INT32		CFindFileUtil::GetFindFileItem(UINT32 nOrderID, PASI_FF_FILE_ITEM pAFFI, 
 			
 			pAFFI[nIdx].nFileSize = begin->nFileSize;
 			pAFFI[nIdx].nFindType = begin->nFindType;
-
-			WriteLog("[GetFindFileItem] [%02d] get to file %s/%s (%d)", nIdx, pAFFI[nIdx].szFilePath, pAFFI[nIdx].szFileName, pAFFI[nIdx].nFileSize);
 
 			pSFFW->tFFIList.erase(begin++);
 			pSFFW->nFileWorkedNum += 1;
